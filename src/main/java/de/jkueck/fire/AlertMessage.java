@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -27,7 +28,7 @@ public class AlertMessage {
 
     private String completeMessage;
 
-    private LocalDateTime alertTimestamp;
+    private Date alertTimestamp;
 
     public static class Builder {
 
@@ -49,9 +50,9 @@ public class AlertMessage {
 
         private String completeMessage;
 
-        private LocalDateTime alertTimestamp;
+        private Date alertTimestamp;
 
-        public Builder(final String completeMessage, LocalDateTime alertTimestamp) {
+        public Builder(final String completeMessage, Date alertTimestamp) {
             this.completeMessage = completeMessage;
             this.alertTimestamp = alertTimestamp;
         }

@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.SimpleDateFormat;
+
 @Slf4j
 @Component
 public class TelegramBot implements ApplicationListener<AlertEvent> {
@@ -46,7 +48,9 @@ public class TelegramBot implements ApplicationListener<AlertEvent> {
     public void onApplicationEvent(AlertEvent alertEvent) {
         log.info("receive alert (" + alertEvent.getAlertMessage().getCompleteMessage() + ")");
         if (StringUtils.trimToNull(this.botToken) != null) {
-            this.sendMessage(alertEvent.getAlertMessage().getCompleteMessage());
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+            this.sendMessage(alertEvent.getAlertMessage().getCategory() + "/" + alertEvent.getAlertMessage().getKeyword() + "/" + sdf.format(alertEvent.getAlertMessage().getAlertTimestamp()));
         } else {
             log.warn("telegram bot is disabled due to no telegram token");
         }
