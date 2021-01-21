@@ -5,7 +5,10 @@ import de.jkueck.fire.events.AlertEvent;
 import de.jkueck.fire.AlertMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +19,9 @@ import java.util.Date;
 @Slf4j
 @Component
 public class SerialPortComponent {
+
+    @Value("${comPort}")
+    private String comPort;
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -29,9 +35,12 @@ public class SerialPortComponent {
         this.applicationEventPublisher.publishEvent(new AlertEvent(this, alertMessage));
     }
 
-    public void x() {
+    @EventListener(ApplicationReadyEvent.class)
+    public void listenToSerialPort() {
 
-        SerialPort serialPort = SerialPort.getCommPort("COM4");
+        log.info("start listening to (" + this.comPort + ")");
+
+        SerialPort serialPort = SerialPort.getCommPort(this.comPort);
         serialPort.openPort();
 
         try {
@@ -157,7 +166,7 @@ public class SerialPortComponent {
 
     @PostConstruct
     public void init() {
-        this.x();
+        // this.x();
     }
 
 }
