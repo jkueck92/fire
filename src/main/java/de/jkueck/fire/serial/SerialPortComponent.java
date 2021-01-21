@@ -1,6 +1,8 @@
-package de.jkueck.fire;
+package de.jkueck.fire.serial;
 
 import com.fazecast.jSerialComm.SerialPort;
+import de.jkueck.fire.events.AlertEvent;
+import de.jkueck.fire.AlertMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
@@ -9,8 +11,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 
 @Slf4j

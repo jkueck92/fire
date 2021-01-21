@@ -1,4 +1,4 @@
-package de.jkueck.fire;
+package de.jkueck.fire.bots.telegram;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
