@@ -1,5 +1,6 @@
 package de.jkueck.fire.bots.telegram;
 
+import de.jkueck.fire.AlertMessage;
 import de.jkueck.fire.events.AlertEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -17,13 +18,29 @@ import java.text.SimpleDateFormat;
 @Component
 public class TelegramBot implements ApplicationListener<AlertEvent> {
 
+    @Value("${messageFormat}")
+    private String messageFormat;
+
     @Value("${botToken}")
     private String botToken;
 
     @Value("${chatIds}")
     private String chatIds;
 
-    private void sendMessage(final String text) {
+    private void sendMessage(AlertMessage alertMessage) {
+
+        String[] messageFormatData = messageFormat.split(",");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(alertMessage.getCategory());
+        builder.append("/");
+        builder.append(alertMessage.getKeyword());
+        builder.append("/");
+        builder.append(alertMessage.getKeywordText());
+        builder.append("/");
+        builder.append(sdf.format(alertMessage.getAlertTimestamp()));
 
         String[] chatIdData = this.chatIds.split(",");
 
@@ -36,7 +53,7 @@ public class TelegramBot implements ApplicationListener<AlertEvent> {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            SendMessage sendMessage = new SendMessage(chatId, text);
+            SendMessage sendMessage = new SendMessage(chatId, builder.toString());
             HttpEntity<SendMessage> request = new HttpEntity<>(sendMessage, headers);
 
             restTemplate.postForObject(url, request, String.class);
@@ -48,9 +65,7 @@ public class TelegramBot implements ApplicationListener<AlertEvent> {
     public void onApplicationEvent(AlertEvent alertEvent) {
         log.info("receive alert (" + alertEvent.getAlertMessage().getCompleteMessage() + ")");
         if (StringUtils.trimToNull(this.botToken) != null) {
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-
-            this.sendMessage(alertEvent.getAlertMessage().getCategory() + "/" + alertEvent.getAlertMessage().getKeyword() + "/" + sdf.format(alertEvent.getAlertMessage().getAlertTimestamp()));
+            this.sendMessage(alertEvent.getAlertMessage());
         } else {
             log.warn("telegram bot is disabled due to no telegram token");
         }
