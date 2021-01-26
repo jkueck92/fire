@@ -24,7 +24,9 @@ public class DiveraBot implements ApplicationListener<AlertEvent> {
         diveraUrlBuilder.append("?");
         diveraUrlBuilder.append("title");
         diveraUrlBuilder.append("=");
-        diveraUrlBuilder.append("F/01");
+        diveraUrlBuilder.append(alertMessage.getCategory());
+        diveraUrlBuilder.append("/");
+        diveraUrlBuilder.append(alertMessage.getKeyword());
         diveraUrlBuilder.append("&");
         diveraUrlBuilder.append("priority=true");
         diveraUrlBuilder.append("&");
@@ -40,9 +42,9 @@ public class DiveraBot implements ApplicationListener<AlertEvent> {
 
         log.info("call divera api with url (" + diveraUrlBuilder.toString() + ")");
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(diveraUrlBuilder.toString(), String.class);
-        log.info(String.valueOf(responseEntity.getStatusCode().value()));
+        // RestTemplate restTemplate = new RestTemplate();
+        // ResponseEntity<String> responseEntity = restTemplate.getForEntity(diveraUrlBuilder.toString(), String.class);
+        // log.info(String.valueOf(responseEntity.getStatusCode().value()));
 
     }
 

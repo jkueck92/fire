@@ -164,9 +164,4 @@ public class SerialPortComponent {
 
     }
 
-    @PostConstruct
-    public void init() {
-        // this.x();
-    }
-
 }
