@@ -1,4 +1,4 @@
-package de.jkueck.fire.bots.telegram;
+package de.jkueck.fire.integrations.telegram;
 
 import de.jkueck.fire.AlertMessage;
 import de.jkueck.fire.events.AlertEvent;
