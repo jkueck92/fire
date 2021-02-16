@@ -1,5 +1,7 @@
 package de.jkueck.fire.integrations.fireboard;
 
+import lombok.Getter;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -9,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * https://fireboard.net/wp-content/uploads/2020/07/handbuch_fireboard_schnittstelle_alarmdatenuebernahme.pdf
  */
 
+@Getter
 @XmlRootElement(name="fireboardOperation")
 public class FireboardPayload {
 
@@ -45,6 +48,7 @@ public class FireboardPayload {
     }
 }
 
+@Getter
 @XmlRootElement(name="basicData")
 class PayloadBasicData {
 
