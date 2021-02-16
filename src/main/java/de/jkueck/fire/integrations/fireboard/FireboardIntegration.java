@@ -2,20 +2,18 @@ package de.jkueck.fire.integrations.fireboard;
 
 import de.jkueck.fire.AlertMessage;
 import de.jkueck.fire.events.AlertEvent;
-import de.jkueck.fire.integrations.telegram.SendMessage;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import java.sql.Timestamp;
 
 @Slf4j
@@ -25,12 +23,11 @@ public class FireboardIntegration implements ApplicationListener<AlertEvent> {
     @Value("${fireboardAccessKey}")
     private String fireboardAccessKey;
 
-    @Value("${spring.application.name}")
-    private String applicationName;
+    private String fireboardSourceName = "DME Alarmdatenübernahme";
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 
-    private void callFireboardApi(AlertMessage alertMessage) {
+    public void callFireboardApi(AlertMessage alertMessage) throws JAXBException {
         FireboardPayload payload = createFBPayload(alertMessage);
 
         StringBuilder fireboardUrlBuilder = new StringBuilder();
@@ -46,7 +43,13 @@ public class FireboardIntegration implements ApplicationListener<AlertEvent> {
 
         String fireboardApiUrl = fireboardUrlBuilder.toString();
 
-        log.info("call fireboard api with url("+fireboardApiUrl+") and the following payload:"+payload.toString());
+        JAXBContext jc = JAXBContext.newInstance(FireboardPayload.class);
+        Marshaller marshaller = jc.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        StringWriter stringWriter = new StringWriter();
+        marshaller.marshal(payload, stringWriter );
+
+        log.info("call fireboard api from source "+this.fireboardSourceName+" with url("+fireboardApiUrl+") and the following payload:\n"+stringWriter.toString());
 /**
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -68,7 +71,7 @@ public class FireboardIntegration implements ApplicationListener<AlertEvent> {
 
         fbPayload.setVersion("1.01");
         fbPayload.setTest(false);
-        fbPayload.setSource(this.applicationName);
+        fbPayload.setSource(this.fireboardSourceName);
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         fbPayload.setUniqueID(sdf.format(timestamp));
@@ -82,6 +85,7 @@ public class FireboardIntegration implements ApplicationListener<AlertEvent> {
         return fbPayload;
     }
 
+    @SneakyThrows
     @Override
     public void onApplicationEvent(AlertEvent alertEvent) {
         log.info("receive alert (" + alertEvent.getAlertMessage().getCompleteMessage() + ")");
