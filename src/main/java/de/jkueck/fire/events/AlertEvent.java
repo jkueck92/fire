@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationEvent;
 public class AlertEvent extends ApplicationEvent {
 
     @Getter
-    private AlertMessage alertMessage;
+    private final AlertMessage alertMessage;
 
     public AlertEvent(Object source, AlertMessage alertMessage) {
         super(source);

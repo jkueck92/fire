@@ -23,7 +23,7 @@ public class FireboardIntegration implements ApplicationListener<AlertEvent> {
     @Value("${fireboardAccessKey}")
     private String fireboardAccessKey;
 
-    private String fireboardSourceName = "DME Alarmdatenübernahme";
+    private final String fireboardSourceName = "DME Alarmdatenübernahme";
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 

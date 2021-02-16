@@ -48,9 +48,9 @@ public class AlertMessage {
 
         private String remark2;
 
-        private String completeMessage;
+        private final String completeMessage;
 
-        private Date alertTimestamp;
+        private final Date alertTimestamp;
 
         public Builder(final String completeMessage, Date alertTimestamp) {
             this.completeMessage = completeMessage;
