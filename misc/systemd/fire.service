@@ -1,0 +1,13 @@
+[Unit]
+Description=FIRE/DMEmon Service
+
+[Service]
+WorkingDirectory=/home/pi/fire
+ExecStart=/bin/java -Xms128m -Xmx256m -jar fire.jar
+User=pi
+Type=simple
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
