@@ -25,22 +25,31 @@ public class DiveraBot implements ApplicationListener<AlertEvent> {
         diveraUrlBuilder.append("title");
         diveraUrlBuilder.append("=");
         diveraUrlBuilder.append(alertMessage.getCategory());
-        diveraUrlBuilder.append("/");
+        diveraUrlBuilder.append(alertMessage.getKeyword());
+        diveraUrlBuilder.append(" ");
         diveraUrlBuilder.append(alertMessage.getKeyword());
         diveraUrlBuilder.append("&");
         diveraUrlBuilder.append("priority=true");
         diveraUrlBuilder.append("&");
-        diveraUrlBuilder.append("text");
-        diveraUrlBuilder.append(alertMessage.getCompleteMessage());
-        diveraUrlBuilder.append("xx");
+        diveraUrlBuilder.append("address");
+        diveraUrlBuilder.append("=");
+        diveraUrlBuilder.append(alertMessage.getStreet());
         diveraUrlBuilder.append("&");
-        diveraUrlBuilder.append("coordinates=gk");
+        diveraUrlBuilder.append("text");
+        diveraUrlBuilder.append("=");
+        diveraUrlBuilder.append(alertMessage.getCompleteMessage());
+        diveraUrlBuilder.append("&");
+        diveraUrlBuilder.append("scene_object");
+        diveraUrlBuilder.append("=");
+        diveraUrlBuilder.append(alertMessage.getObject());
         diveraUrlBuilder.append("&");
         diveraUrlBuilder.append("accesskey");
         diveraUrlBuilder.append("=");
         diveraUrlBuilder.append(this.diveraAccessKey);
 
         log.info("call divera api with url (" + diveraUrlBuilder.toString() + ")");
+
+        // https://www.divera247.com/api/alarm?title=F011%20Testfeuer&priority=true&text=Musterstadt%20Musterstra%C3%9Fe%2012%2FMusterfimra%2FF%2F01%2Fmschine%20brennt%2Ftestcomment1%2Ftestcomment2&address=Musterstra%C3%9Fe%2012&scene_object=Musterfimra&additional_text_1=test%20comment%201&additional_text_2=test%20comment%202&coordinates=gk&accesskey=cU3GYfdXOQicyr16PxPdkYkYDaYReUyi_KpIx90fnhlaZKbG_HgLippXZgGFNJCz
 
         // RestTemplate restTemplate = new RestTemplate();
         // ResponseEntity<String> responseEntity = restTemplate.getForEntity(diveraUrlBuilder.toString(), String.class);
