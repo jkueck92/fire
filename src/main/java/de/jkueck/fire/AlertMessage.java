@@ -30,6 +30,8 @@ public class AlertMessage {
 
     private Date alertTimestamp;
 
+    private String ric;
+
     public static class Builder {
 
         private String city;
@@ -51,6 +53,8 @@ public class AlertMessage {
         private String completeMessage;
 
         private Date alertTimestamp;
+
+        private String ric;
 
         public Builder(final String completeMessage, Date alertTimestamp) {
             this.completeMessage = completeMessage;
@@ -97,6 +101,11 @@ public class AlertMessage {
             return this;
         }
 
+        public Builder withRic(final String ric) {
+            this.ric = ric;
+            return this;
+        }
+
         public AlertMessage build() {
             AlertMessage alertMessage = new AlertMessage();
             alertMessage.city = this.city;
@@ -109,6 +118,7 @@ public class AlertMessage {
             alertMessage.remark2 = this.remark2;
             alertMessage.completeMessage = this.completeMessage;
             alertMessage.alertTimestamp = this.alertTimestamp;
+            alertMessage.ric = this.ric;
             return alertMessage;
         }
 

@@ -53,7 +53,7 @@ public class SerialPortComponent {
             for (int j = 0; j < 1000; ++j) {
                 int c = in.read();
 
-                log.info(c + " - " + (char) c);
+                log.info("receive character: (" + c + ") - (" + (char) c + ")");
 
                 // 2 == Start of text
                 // 3 == End of text
@@ -79,11 +79,16 @@ public class SerialPortComponent {
                     log.info("stop reading");
                     log.info(sb.toString());
 
+
+
                     String timeAndDate = sb.substring(0, 14);
-                    log.info(timeAndDate);
+                    log.info("operation timestamp: (" + timeAndDate + ")");
+
+                    String ric = sb.substring(14, 22);
+                    log.info("ric: (" + ric + ")");
 
                     String message = sb.substring(22, sb.length());
-                    log.info(message);
+                    log.info("message: (" + message + ")");
 
                     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd.MM.yy");
                     Date timestamp = sdf.parse(timeAndDate);
@@ -97,6 +102,10 @@ public class SerialPortComponent {
                     AlertMessage alertMessage = new AlertMessage();
                     alertMessage.setCompleteMessage(message);
                     alertMessage.setAlertTimestamp(timestamp);
+
+                    if (ric != null) {
+                        alertMessage.setRic(ric);
+                    }
 
                     String[] locationData = StringUtils.split(x[0], Character.toString((char)32), 2);
 
