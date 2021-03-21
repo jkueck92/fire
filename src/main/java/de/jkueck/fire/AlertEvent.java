@@ -1,6 +1,5 @@
-package de.jkueck.fire.events;
+package de.jkueck.fire;
 
-import de.jkueck.fire.AlertMessage;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 

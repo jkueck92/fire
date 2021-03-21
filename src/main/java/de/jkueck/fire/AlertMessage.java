@@ -1,14 +1,25 @@
 package de.jkueck.fire;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
 @Setter
+@Builder
 public class AlertMessage {
+
+    public static final String PLACEHOLDER_CITY = "city";
+    public static final String PLACEHOLDER_STREET = "street";
+    public static final String PLACEHOLDER_OBJECT = "object";
+    public static final String PLACEHOLDER_CATEGORY = "category";
+    public static final String PLACEHOLDER_KEYWORD = "keyword";
+    public static final String PLACEHOLDER_KEYWORD_TEXT = "keywordText";
+    public static final String PLACEHOLDER_REMARK_1 = "remark1";
+    public static final String PLACEHOLDER_REMARK_2 = "remark2";
+    public static final String PLACEHOLDER_TIMESTAMP = "timestamp";
 
     private String city;
 
@@ -26,102 +37,10 @@ public class AlertMessage {
 
     private String remark2;
 
-    private String completeMessage;
-
-    private Date alertTimestamp;
-
     private String ric;
 
-    public static class Builder {
+    private String completeMessage;
 
-        private String city;
-
-        private String street;
-
-        private String object;
-
-        private String category;
-
-        private String keyword;
-
-        private String keywordText;
-
-        private String remark1;
-
-        private String remark2;
-
-        private String completeMessage;
-
-        private Date alertTimestamp;
-
-        private String ric;
-
-        public Builder(final String completeMessage, Date alertTimestamp) {
-            this.completeMessage = completeMessage;
-            this.alertTimestamp = alertTimestamp;
-        }
-
-        public Builder withCity(final String city) {
-            this.city = city;
-            return this;
-        }
-
-        public Builder withStreet(final String street) {
-            this.street = street;
-            return this;
-        }
-
-        public Builder withObject(final String object) {
-            this.object = object;
-            return this;
-        }
-
-        public Builder withCategory(final String category) {
-            this.category = category;
-            return this;
-        }
-
-        public Builder withKeyword(final String keyword) {
-            this.keyword = keyword;
-            return this;
-        }
-
-        public Builder withKeywordText(final String keywordText) {
-            this.keywordText = keywordText;
-            return this;
-        }
-
-        public Builder withRemark1(final String remark1) {
-            this.remark1 = remark1;
-            return this;
-        }
-
-        public Builder withRemark2(final String remark2) {
-            this.remark2 = remark2;
-            return this;
-        }
-
-        public Builder withRic(final String ric) {
-            this.ric = ric;
-            return this;
-        }
-
-        public AlertMessage build() {
-            AlertMessage alertMessage = new AlertMessage();
-            alertMessage.city = this.city;
-            alertMessage.street = this.street;
-            alertMessage.object = this.object;
-            alertMessage.category = this.category;
-            alertMessage.keyword = this.keyword;
-            alertMessage.keywordText = this.keywordText;
-            alertMessage.remark1 = this.remark1;
-            alertMessage.remark2 = this.remark2;
-            alertMessage.completeMessage = this.completeMessage;
-            alertMessage.alertTimestamp = this.alertTimestamp;
-            alertMessage.ric = this.ric;
-            return alertMessage;
-        }
-
-    }
+    private Date timestamp;
 
 }

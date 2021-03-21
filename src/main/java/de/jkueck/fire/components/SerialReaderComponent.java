@@ -1,46 +1,38 @@
-package de.jkueck.fire.serial;
+package de.jkueck.fire.components;
 
 import com.fazecast.jSerialComm.SerialPort;
-import de.jkueck.fire.events.AlertEvent;
+import de.jkueck.fire.AlertEvent;
 import de.jkueck.fire.AlertMessage;
+import de.jkueck.fire.service.SystemSettingService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Slf4j
 @Component
-public class SerialPortComponent {
-
-    @Value("${comPort}")
-    private String comPort;
+public class SerialReaderComponent {
 
     private final ApplicationEventPublisher applicationEventPublisher;
+    private final SystemSettingService systemSettingService;
 
-    public SerialPortComponent(ApplicationEventPublisher applicationEventPublisher) {
+    public SerialReaderComponent(ApplicationEventPublisher applicationEventPublisher, SystemSettingService systemSettingService) {
         this.applicationEventPublisher = applicationEventPublisher;
-    }
-
-
-    private void publishEvent(AlertMessage alertMessage) {
-        log.info("publish event");
-        this.applicationEventPublisher.publishEvent(new AlertEvent(this, alertMessage));
+        this.systemSettingService = systemSettingService;
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    public void listenToSerialPort() {
+    public void listen() {
 
-        log.info("start listening to (" + this.comPort + ")");
+        log.info("start listening to (" + this.systemSettingService.getComPort() + ")");
 
-        SerialPort serialPort = SerialPort.getCommPort(this.comPort);
+        SerialPort serialPort = SerialPort.getCommPort(this.systemSettingService.getComPort());
         serialPort.openPort();
 
         try {
@@ -99,61 +91,61 @@ public class SerialPortComponent {
                         log.info("message: " + a);
                     }
 
-                    AlertMessage alertMessage = new AlertMessage();
-                    alertMessage.setCompleteMessage(message);
-                    alertMessage.setAlertTimestamp(timestamp);
+                    AlertMessage.AlertMessageBuilder alertMessageBuilder = AlertMessage.builder();
+                    alertMessageBuilder.completeMessage(message);
+                    alertMessageBuilder.timestamp(timestamp);
 
                     if (ric != null) {
-                        alertMessage.setRic(ric);
+                        alertMessageBuilder.ric(ric);
                     }
 
                     String[] locationData = StringUtils.split(x[0], Character.toString((char)32), 2);
 
                     String city = StringUtils.trimToNull(locationData[0]);
                     if (city != null) {
-                        alertMessage.setCity(city);
+                        alertMessageBuilder.city(city);
                     }
 
                     String street = StringUtils.trimToNull(locationData[1]);
                     if (street != null) {
-                        alertMessage.setStreet(street);
+                        alertMessageBuilder.street(street);
                     }
 
                     String object = StringUtils.trimToNull(x[1]);
                     if (object != null) {
-                        alertMessage.setObject(object);
+                        alertMessageBuilder.object(object);
                     }
 
                     String category = StringUtils.trimToNull(x[2]);
                     if (category != null) {
-                        alertMessage.setCategory(category);
+                        alertMessageBuilder.category(category);
                     }
 
                     String keyword = StringUtils.trimToNull(x[3]);
                     if (keyword != null) {
-                        alertMessage.setKeyword(keyword);
+                        alertMessageBuilder.keyword(keyword);
                     }
 
                     String keywordText = StringUtils.trimToNull(x[4]);
                     if (keywordText != null) {
-                        alertMessage.setKeywordText(keywordText);
+                        alertMessageBuilder.keywordText(keywordText);
                     }
 
                     if (x.length >= 6) {
                         String remark1 = StringUtils.trimToNull(x[5]);
                         if (remark1 != null) {
-                            alertMessage.setRemark1(remark1);
+                            alertMessageBuilder.remark1(remark1);
                         }
                     }
 
                     if (x.length >= 7) {
                         String remark2 = StringUtils.trimToNull(x[6]);
                         if (remark2 != null) {
-                            alertMessage.setRemark2(remark2);
+                            alertMessageBuilder.remark2(remark2);
                         }
                     }
 
-                    this.publishEvent(alertMessage);
+                    this.applicationEventPublisher.publishEvent(new AlertEvent(this, alertMessageBuilder.build()));
 
                     x = null;
                     sb = new StringBuilder();
