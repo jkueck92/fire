@@ -4,7 +4,7 @@ import de.jkueck.fire.AlertEvent;
 import de.jkueck.fire.AlertMessage;
 import de.jkueck.fire.SendMessage;
 import de.jkueck.fire.SettingNames;
-import de.jkueck.fire.database.TelegramChat;
+import de.jkueck.fire.database.entity.TelegramChat;
 import de.jkueck.fire.service.TelegramChatService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

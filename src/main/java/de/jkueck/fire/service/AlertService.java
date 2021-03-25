@@ -1,6 +1,6 @@
 package de.jkueck.fire.service;
 
-import de.jkueck.fire.database.Alert;
+import de.jkueck.fire.database.entity.Alert;
 import de.jkueck.fire.database.repository.AlertRepository;
 import org.springframework.stereotype.Service;
 

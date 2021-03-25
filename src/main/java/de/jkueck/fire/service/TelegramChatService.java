@@ -1,6 +1,6 @@
 package de.jkueck.fire.service;
 
-import de.jkueck.fire.database.TelegramChat;
+import de.jkueck.fire.database.entity.TelegramChat;
 import de.jkueck.fire.database.repository.TelegramChatRepository;
 import org.springframework.stereotype.Service;
 

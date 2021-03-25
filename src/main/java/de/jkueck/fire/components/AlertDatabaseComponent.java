@@ -2,7 +2,7 @@ package de.jkueck.fire.components;
 
 import de.jkueck.fire.AlertEvent;
 import de.jkueck.fire.AlertMessage;
-import de.jkueck.fire.database.Alert;
+import de.jkueck.fire.database.entity.Alert;
 import de.jkueck.fire.service.AlertService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

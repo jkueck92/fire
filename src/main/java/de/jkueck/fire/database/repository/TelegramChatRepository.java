@@ -1,6 +1,6 @@
 package de.jkueck.fire.database.repository;
 
-import de.jkueck.fire.database.TelegramChat;
+import de.jkueck.fire.database.entity.TelegramChat;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

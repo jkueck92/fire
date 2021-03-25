@@ -1,5 +1,6 @@
-package de.jkueck.fire.database;
+package de.jkueck.fire.database.entity;
 
+import de.jkueck.fire.database.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

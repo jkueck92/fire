@@ -1,6 +1,6 @@
 package de.jkueck.fire.web.controller;
 
-import de.jkueck.fire.database.TelegramChat;
+import de.jkueck.fire.database.entity.TelegramChat;
 import de.jkueck.fire.service.ITelegramChatService;
 import de.jkueck.fire.web.entity.telegram.TelegramChatListResponse;
 import de.jkueck.fire.web.entity.telegram.TelegramChatRequest;

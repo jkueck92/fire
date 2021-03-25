@@ -1,6 +1,6 @@
 package de.jkueck.fire.database.repository;
 
-import de.jkueck.fire.database.Alert;
+import de.jkueck.fire.database.entity.Alert;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

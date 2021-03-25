@@ -1,6 +1,6 @@
 package de.jkueck.fire.service;
 
-import de.jkueck.fire.database.TelegramChat;
+import de.jkueck.fire.database.entity.TelegramChat;
 
 import java.util.Optional;
 import java.util.Set;
