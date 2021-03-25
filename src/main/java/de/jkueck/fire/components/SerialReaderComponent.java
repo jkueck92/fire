@@ -3,7 +3,6 @@ package de.jkueck.fire.components;
 import com.fazecast.jSerialComm.SerialPort;
 import de.jkueck.fire.AlertEvent;
 import de.jkueck.fire.AlertMessage;
-import de.jkueck.fire.service.SystemSettingService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -20,19 +19,20 @@ import java.util.Date;
 public class SerialReaderComponent {
 
     private final ApplicationEventPublisher applicationEventPublisher;
-    private final SystemSettingService systemSettingService;
 
-    public SerialReaderComponent(ApplicationEventPublisher applicationEventPublisher, SystemSettingService systemSettingService) {
+    public SerialReaderComponent(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
-        this.systemSettingService = systemSettingService;
     }
 
     @EventListener(ApplicationReadyEvent.class)
     public void listen() {
 
-        log.info("start listening to (" + this.systemSettingService.getComPort() + ")");
+        // TODO
+        // log.info("start listening to (" + this.systemSettingService.getComPort() + ")");
 
-        SerialPort serialPort = SerialPort.getCommPort(this.systemSettingService.getComPort());
+        // TODO
+        // SerialPort serialPort = SerialPort.getCommPort(this.systemSettingService.getComPort());
+        SerialPort serialPort = SerialPort.getCommPort("comPoert");
         serialPort.openPort();
 
         try {
@@ -72,7 +72,6 @@ public class SerialReaderComponent {
                     log.info(sb.toString());
 
 
-
                     String timeAndDate = sb.substring(0, 14);
                     log.info("operation timestamp: (" + timeAndDate + ")");
 
@@ -99,7 +98,7 @@ public class SerialReaderComponent {
                         alertMessageBuilder.ric(ric);
                     }
 
-                    String[] locationData = StringUtils.split(x[0], Character.toString((char)32), 2);
+                    String[] locationData = StringUtils.split(x[0], Character.toString((char) 32), 2);
 
                     String city = StringUtils.trimToNull(locationData[0]);
                     if (city != null) {

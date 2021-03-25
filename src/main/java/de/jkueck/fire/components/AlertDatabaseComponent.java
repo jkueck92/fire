@@ -4,7 +4,6 @@ import de.jkueck.fire.AlertEvent;
 import de.jkueck.fire.AlertMessage;
 import de.jkueck.fire.database.Alert;
 import de.jkueck.fire.service.AlertService;
-import de.jkueck.fire.service.SystemSettingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +13,7 @@ public class AlertDatabaseComponent extends BaseComponent {
 
     private final AlertService alertService;
 
-    protected AlertDatabaseComponent(SystemSettingService systemSettingService, AlertService alertService) {
-        super(systemSettingService);
+    protected AlertDatabaseComponent(AlertService alertService) {
         this.alertService = alertService;
     }
 
@@ -32,8 +30,6 @@ public class AlertDatabaseComponent extends BaseComponent {
 
     @Override
     public void onApplicationEvent(AlertEvent alertEvent) {
-        if (this.getSystemSettingService().isDatabasePersistEnabled()) {
-            this.execute(alertEvent.getAlertMessage());
-        }
+        // TODO
     }
 }

@@ -4,7 +4,6 @@ import de.jkueck.fire.AlertEvent;
 import de.jkueck.fire.AlertMessage;
 import de.jkueck.fire.SendMessage;
 import de.jkueck.fire.database.TelegramChat;
-import de.jkueck.fire.service.SystemSettingService;
 import de.jkueck.fire.service.TelegramChatService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -25,8 +24,7 @@ public class TelegramComponent extends BaseComponent {
 
     private final TelegramChatService telegramChatService;
 
-    protected TelegramComponent(SystemSettingService systemSettingService, TelegramChatService telegramChatService) {
-        super(systemSettingService);
+    protected TelegramComponent(TelegramChatService telegramChatService) {
         this.telegramChatService = telegramChatService;
     }
 
@@ -44,7 +42,8 @@ public class TelegramComponent extends BaseComponent {
 
                     Matcher matcher = Pattern.compile("\\{(.*?)}").matcher(telegramChat.getMessage());
 
-                    String format = this.getSystemSettingService().getAlertMessageTimestampFormat();
+                    // TODO
+                    String format = ""; //this.getSystemSettingService().getAlertMessageTimestampFormat();
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
 
                     while (matcher.find()) {
@@ -94,9 +93,11 @@ public class TelegramComponent extends BaseComponent {
 
                     HttpEntity<SendMessage> request = new HttpEntity<>(sendMessage, httpHeaders);
 
-                    restTemplate.patchForObject("https://api.telegram.org/bot" + this.getSystemSettingService().getTelegramBotId() + "/sendMessage", request, String.class);
+                    // TODO
+                    // restTemplate.patchForObject("https://api.telegram.org/bot" + this.getSystemSettingService().getTelegramBotId() + "/sendMessage", request, String.class);
 
-                    log.info("send message (" + stringBuffer + ") to telegram chat (" + telegramChat.getChatId() + ") with telegram bot id (" + this.getSystemSettingService().getTelegramBotId() + ")");
+                    // TODO
+                    // log.info("send message (" + stringBuffer + ") to telegram chat (" + telegramChat.getChatId() + ") with telegram bot id (" + this.getSystemSettingService().getTelegramBotId() + ")");
 
                 }
 
@@ -108,9 +109,7 @@ public class TelegramComponent extends BaseComponent {
 
     @Override
     public void onApplicationEvent(AlertEvent alertEvent) {
-        if (this.getSystemSettingService().isTelegramEnabled()) {
-            this.execute(alertEvent.getAlertMessage());
-        }
+        // TODO
     }
 
 }
