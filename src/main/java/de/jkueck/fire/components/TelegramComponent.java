@@ -3,9 +3,11 @@ package de.jkueck.fire.components;
 import de.jkueck.fire.AlertEvent;
 import de.jkueck.fire.AlertMessage;
 import de.jkueck.fire.SendMessage;
+import de.jkueck.fire.SettingNames;
 import de.jkueck.fire.database.TelegramChat;
 import de.jkueck.fire.service.TelegramChatService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -42,9 +44,14 @@ public class TelegramComponent extends BaseComponent {
 
                     Matcher matcher = Pattern.compile("\\{(.*?)}").matcher(telegramChat.getMessage());
 
-                    // TODO
-                    String format = ""; //this.getSystemSettingService().getAlertMessageTimestampFormat();
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+                    SimpleDateFormat simpleDateFormat;
+
+                    String timestampFormat = this.getSettingService().getStringValue(SettingNames.SETTING_ALERT_MESSAGE_TIMESTAMP_FORMAT);
+                    if (StringUtils.isNotBlank(timestampFormat)) {
+                        simpleDateFormat = new SimpleDateFormat(timestampFormat);
+                    } else {
+                        simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                    }
 
                     while (matcher.find()) {
 
@@ -84,20 +91,25 @@ public class TelegramComponent extends BaseComponent {
 
                     matcher.appendTail(stringBuffer);
 
-                    RestTemplate restTemplate = new RestTemplate();
+                    String telegramBotToken = this.getSettingService().getStringValue(SettingNames.SETTING_TELEGRAM_BOT_TOKEN);
+                    if (StringUtils.isNotBlank(telegramBotToken)) {
 
-                    HttpHeaders httpHeaders = new HttpHeaders();
-                    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                        RestTemplate restTemplate = new RestTemplate();
 
-                    SendMessage sendMessage = SendMessage.builder().chatId(telegramChat.getChatId()).text(stringBuffer.toString()).build();
+                        HttpHeaders httpHeaders = new HttpHeaders();
+                        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-                    HttpEntity<SendMessage> request = new HttpEntity<>(sendMessage, httpHeaders);
+                        SendMessage sendMessage = SendMessage.builder().chatId(telegramChat.getChatId()).text(stringBuffer.toString()).build();
 
-                    // TODO
-                    // restTemplate.patchForObject("https://api.telegram.org/bot" + this.getSystemSettingService().getTelegramBotId() + "/sendMessage", request, String.class);
+                        HttpEntity<SendMessage> request = new HttpEntity<>(sendMessage, httpHeaders);
 
-                    // TODO
-                    // log.info("send message (" + stringBuffer + ") to telegram chat (" + telegramChat.getChatId() + ") with telegram bot id (" + this.getSystemSettingService().getTelegramBotId() + ")");
+
+                        restTemplate.patchForObject("https://api.telegram.org/bot" + telegramBotToken + "/sendMessage", request, String.class);
+
+                        log.info("send message (" + stringBuffer + ") to telegram chat (" + telegramChat.getChatId() + ") with telegram bot id (" + telegramBotToken + ")");
+                    } else {
+                        log.warn("can not send message to telegram, token is missing in settings");
+                    }
 
                 }
 

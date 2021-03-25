@@ -1,4 +1,4 @@
-package de.jkueck.fire.web.entity;
+package de.jkueck.fire.web.entity.setting;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

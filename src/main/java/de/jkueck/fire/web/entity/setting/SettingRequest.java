@@ -1,4 +1,4 @@
-package de.jkueck.fire.web.entity;
+package de.jkueck.fire.web.entity.setting;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SettingResponse {
+public class SettingRequest {
 
     private long id;
 

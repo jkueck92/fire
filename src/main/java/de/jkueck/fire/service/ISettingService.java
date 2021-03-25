@@ -25,5 +25,9 @@ public interface ISettingService {
     Optional<Setting> update(final long id, final String value);
 
     Optional<Set<Setting>> findAll();
-    
+
+    boolean getBooleanValue(SettingNames name);
+
+    String getStringValue(SettingNames name);
+
 }

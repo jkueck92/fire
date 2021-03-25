@@ -72,6 +72,18 @@ public class SettingService implements ISettingService {
         return Optional.of(settings);
     }
 
+    @Override
+    public boolean getBooleanValue(SettingNames name) {
+        Optional<Setting> optionalSetting = this.findByName(name);
+        return optionalSetting.map(setting -> Boolean.parseBoolean(setting.getValue())).orElse(Boolean.FALSE);
+    }
+
+    @Override
+    public String getStringValue(SettingNames name) {
+        Optional<Setting> optionalSetting = this.findByName(name);
+        return optionalSetting.map(Setting::getValue).orElse("");
+    }
+
     private Setting save(Setting setting) {
         return this.settingRepository.save(setting);
     }
