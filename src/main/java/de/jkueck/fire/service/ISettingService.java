@@ -10,12 +10,6 @@ public interface ISettingService {
 
     Optional<Setting> save(SettingNames name, String value);
 
-    Optional<Setting> save(SettingNames name, Boolean value);
-
-    Optional<Setting> save(SettingNames name, Integer value);
-
-    Optional<Setting> save(SettingNames name, Double value);
-
     Optional<Setting> findById(final long id);
 
     Optional<Setting> findByName(final String name);

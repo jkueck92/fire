@@ -26,21 +26,6 @@ public class SettingService implements ISettingService {
     }
 
     @Override
-    public Optional<Setting> save(SettingNames name, Boolean value) {
-        return Optional.of(this.save(new Setting(name, String.valueOf(value))));
-    }
-
-    @Override
-    public Optional<Setting> save(SettingNames name, Integer value) {
-        return Optional.of(this.save(new Setting(name, String.valueOf(value))));
-    }
-
-    @Override
-    public Optional<Setting> save(SettingNames name, Double value) {
-        return Optional.of(this.save(new Setting(name, String.valueOf(value))));
-    }
-
-    @Override
     public Optional<Setting> findById(long id) {
         return this.settingRepository.findById(id);
     }
