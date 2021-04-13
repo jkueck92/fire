@@ -2,6 +2,7 @@ package de.jkueck.fire.components;
 
 import de.jkueck.fire.AlertEvent;
 import de.jkueck.fire.AlertMessage;
+import de.jkueck.fire.SystemSettings;
 import de.jkueck.fire.database.Alert;
 import de.jkueck.fire.service.AlertService;
 import de.jkueck.fire.service.SystemSettingService;
@@ -31,9 +32,8 @@ public class AlertDatabaseComponent extends BaseComponent {
     }
 
     @Override
-    public void onApplicationEvent(AlertEvent alertEvent) {
-        if (this.getSystemSettingService().isDatabasePersistEnabled()) {
-            this.execute(alertEvent.getAlertMessage());
-        }
+    boolean isEnabled() {
+        return this.getSystemSettingService().getSystemSettingAsBoolean(SystemSettings.SYSTEM_SETTING_IS_DATABASE_PERSIST_ENABLED);
     }
+
 }

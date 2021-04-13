@@ -17,4 +17,13 @@ public abstract class BaseComponent implements ApplicationListener<AlertEvent> {
 
     abstract void execute(AlertMessage alertMessage);
 
+    abstract boolean isEnabled();
+
+    @Override
+    public void onApplicationEvent(AlertEvent alertEvent) {
+        if (this.isEnabled()) {
+            this.execute(alertEvent.getAlertMessage());
+        }
+    }
+
 }

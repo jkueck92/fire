@@ -1,8 +1,8 @@
 package de.jkueck.fire.components;
 
-import de.jkueck.fire.AlertEvent;
 import de.jkueck.fire.AlertMessage;
 import de.jkueck.fire.SendMessage;
+import de.jkueck.fire.SystemSettings;
 import de.jkueck.fire.database.TelegramChat;
 import de.jkueck.fire.service.SystemSettingService;
 import de.jkueck.fire.service.TelegramChatService;
@@ -44,7 +44,7 @@ public class TelegramComponent extends BaseComponent {
 
                     Matcher matcher = Pattern.compile("\\{(.*?)}").matcher(telegramChat.getMessage());
 
-                    String format = this.getSystemSettingService().getAlertMessageTimestampFormat();
+                    String format = this.getSystemSettingService().getSystemSettingAsString(SystemSettings.SYSTEM_SETTING_ALERT_MESSAGE_DATE_TIME_FORMAT);
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
 
                     while (matcher.find()) {
@@ -94,9 +94,11 @@ public class TelegramComponent extends BaseComponent {
 
                     HttpEntity<SendMessage> request = new HttpEntity<>(sendMessage, httpHeaders);
 
-                    restTemplate.patchForObject("https://api.telegram.org/bot" + this.getSystemSettingService().getTelegramBotId() + "/sendMessage", request, String.class);
+                    String telegramBotId = this.getSystemSettingService().getSystemSettingAsString(SystemSettings.SYSTEM_SETTING_TELEGRAM_BOT_ID);
 
-                    log.info("send message (" + stringBuffer + ") to telegram chat (" + telegramChat.getChatId() + ") with telegram bot id (" + this.getSystemSettingService().getTelegramBotId() + ")");
+                    restTemplate.patchForObject("https://api.telegram.org/bot" + telegramBotId + "/sendMessage", request, String.class);
+
+                    log.info("send message (" + stringBuffer + ") to telegram chat (" + telegramChat.getChatId() + ") with telegram bot id (" + telegramBotId + ")");
 
                 }
 
@@ -107,10 +109,8 @@ public class TelegramComponent extends BaseComponent {
     }
 
     @Override
-    public void onApplicationEvent(AlertEvent alertEvent) {
-        if (this.getSystemSettingService().isTelegramEnabled()) {
-            this.execute(alertEvent.getAlertMessage());
-        }
+    boolean isEnabled() {
+        return this.getSystemSettingService().getSystemSettingAsBoolean(SystemSettings.SYSTEM_SETTING_IS_TELEGRAM_ENABLED);
     }
 
 }

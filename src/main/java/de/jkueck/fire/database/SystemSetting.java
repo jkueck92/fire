@@ -18,12 +18,9 @@ public class SystemSetting extends BaseEntity {
 
     private String value;
 
-    private String defaultValue;
-
-    public SystemSetting(String name, String value, String defaultValue) {
+    public SystemSetting(String name, String value) {
         this.name = name;
         this.value = value;
-        this.defaultValue = defaultValue;
     }
 
     @Override
@@ -31,7 +28,6 @@ public class SystemSetting extends BaseEntity {
         return "SystemSetting{" +
                 "name='" + name + '\'' +
                 ", value='" + value + '\'' +
-                ", defaultValue='" + defaultValue + '\'' +
                 '}';
     }
 

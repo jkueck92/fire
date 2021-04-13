@@ -3,6 +3,7 @@ package de.jkueck.fire.components;
 import com.fazecast.jSerialComm.SerialPort;
 import de.jkueck.fire.AlertEvent;
 import de.jkueck.fire.AlertMessage;
+import de.jkueck.fire.SystemSettings;
 import de.jkueck.fire.service.SystemSettingService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -30,9 +31,11 @@ public class SerialReaderComponent {
     @EventListener(ApplicationReadyEvent.class)
     public void listen() {
 
-        log.info("start listening to (" + this.systemSettingService.getComPort() + ")");
+        String comPort = this.systemSettingService.getSystemSettingAsString(SystemSettings.SYSTEM_SETTING_COM_PORT);
 
-        SerialPort serialPort = SerialPort.getCommPort(this.systemSettingService.getComPort());
+        log.info("start listening to (" + comPort + ")");
+
+        SerialPort serialPort = SerialPort.getCommPort(comPort);
         serialPort.openPort();
 
         try {

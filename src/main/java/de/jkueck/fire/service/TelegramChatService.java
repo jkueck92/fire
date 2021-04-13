@@ -17,25 +17,10 @@ public class TelegramChatService {
     }
 
     /**
-     * @param chatId
-     * @return
-     */
-    public Optional<TelegramChat> getTelegramChatByChatId(final String chatId) {
-        return this.telegramChatRepository.findByChatId(chatId);
-    }
-
-    /**
      * @return
      */
     public Optional<Set<TelegramChat>> getEnabledTelegramChats() {
         return this.telegramChatRepository.findByIsEnabled(Boolean.TRUE);
-    }
-
-    /**
-     * @return
-     */
-    public Optional<Set<TelegramChat>> getDisabledTelegramChats() {
-        return this.telegramChatRepository.findByIsEnabled(Boolean.FALSE);
     }
 
 }

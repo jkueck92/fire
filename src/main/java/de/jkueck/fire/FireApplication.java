@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Slf4j
 @SpringBootApplication
-public class FireApplication implements ApplicationRunner {
+public class FireApplication {
 
     private final SystemSettingService systemSettingService;
 
@@ -19,11 +19,6 @@ public class FireApplication implements ApplicationRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(FireApplication.class, args);
-    }
-
-    @Override
-    public void run(ApplicationArguments args) {
-        this.systemSettingService.initSettings();
     }
 
 }
