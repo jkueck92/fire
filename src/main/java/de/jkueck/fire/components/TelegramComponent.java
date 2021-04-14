@@ -4,7 +4,6 @@ import de.jkueck.fire.AlertMessage;
 import de.jkueck.fire.SendMessage;
 import de.jkueck.fire.SystemSettings;
 import de.jkueck.fire.database.TelegramChat;
-import de.jkueck.fire.service.SystemSettingServiceImpl;
 import de.jkueck.fire.service.TelegramChatService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -25,8 +24,7 @@ public class TelegramComponent extends AlertBaseComponent {
 
     private final TelegramChatService telegramChatService;
 
-    protected TelegramComponent(SystemSettingServiceImpl systemSettingServiceImpl, TelegramChatService telegramChatService) {
-        super(systemSettingServiceImpl);
+    protected TelegramComponent(TelegramChatService telegramChatService) {
         this.telegramChatService = telegramChatService;
     }
 

@@ -5,7 +5,6 @@ import de.jkueck.fire.AlertMessage;
 import de.jkueck.fire.DiveraApiParameter;
 import de.jkueck.fire.SystemSettings;
 import de.jkueck.fire.osm.OsmAddressResponse;
-import de.jkueck.fire.service.SystemSettingServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -19,10 +18,6 @@ import java.util.Arrays;
 @Slf4j
 @Component
 public class DiveraComponent extends AlertBaseComponent {
-
-    protected DiveraComponent(SystemSettingServiceImpl systemSettingServiceImpl) {
-        super(systemSettingServiceImpl);
-    }
 
     @Override
     void execute(AlertMessage alertMessage) {

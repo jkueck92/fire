@@ -22,8 +22,7 @@ public class SerialReaderComponent extends BaseComponent {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    protected SerialReaderComponent(SystemSettingService systemSettingService, ApplicationEventPublisher applicationEventPublisher) {
-        super(systemSettingService);
+    protected SerialReaderComponent(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
