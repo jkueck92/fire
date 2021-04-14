@@ -4,7 +4,7 @@ import de.jkueck.fire.AlertMessage;
 import de.jkueck.fire.SendMessage;
 import de.jkueck.fire.SystemSettings;
 import de.jkueck.fire.database.TelegramChat;
-import de.jkueck.fire.service.SystemSettingService;
+import de.jkueck.fire.service.SystemSettingServiceImpl;
 import de.jkueck.fire.service.TelegramChatService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -21,12 +21,12 @@ import java.util.regex.Pattern;
 
 @Slf4j
 @Component
-public class TelegramComponent extends BaseComponent {
+public class TelegramComponent extends AlertBaseComponent {
 
     private final TelegramChatService telegramChatService;
 
-    protected TelegramComponent(SystemSettingService systemSettingService, TelegramChatService telegramChatService) {
-        super(systemSettingService);
+    protected TelegramComponent(SystemSettingServiceImpl systemSettingServiceImpl, TelegramChatService telegramChatService) {
+        super(systemSettingServiceImpl);
         this.telegramChatService = telegramChatService;
     }
 

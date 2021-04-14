@@ -18,20 +18,19 @@ import java.util.Date;
 
 @Slf4j
 @Component
-public class SerialReaderComponent {
+public class SerialReaderComponent extends BaseComponent {
 
     private final ApplicationEventPublisher applicationEventPublisher;
-    private final SystemSettingService systemSettingService;
 
-    public SerialReaderComponent(ApplicationEventPublisher applicationEventPublisher, SystemSettingService systemSettingService) {
+    protected SerialReaderComponent(SystemSettingService systemSettingService, ApplicationEventPublisher applicationEventPublisher) {
+        super(systemSettingService);
         this.applicationEventPublisher = applicationEventPublisher;
-        this.systemSettingService = systemSettingService;
     }
 
     @EventListener(ApplicationReadyEvent.class)
     public void listen() {
 
-        String comPort = this.systemSettingService.getSystemSettingAsString(SystemSettings.SYSTEM_SETTING_COM_PORT);
+        String comPort = this.getSystemSettingService().getSystemSettingAsString(SystemSettings.SYSTEM_SETTING_COM_PORT);
 
         log.info("start listening to (" + comPort + ")");
 
@@ -75,7 +74,6 @@ public class SerialReaderComponent {
                     log.info(sb.toString());
 
 
-
                     String timeAndDate = sb.substring(0, 14);
                     log.info("operation timestamp: (" + timeAndDate + ")");
 
@@ -102,7 +100,7 @@ public class SerialReaderComponent {
                         alertMessageBuilder.ric(ric);
                     }
 
-                    String[] locationData = StringUtils.split(x[0], Character.toString((char)32), 2);
+                    String[] locationData = StringUtils.split(x[0], Character.toString((char) 32), 2);
 
                     String city = StringUtils.trimToNull(locationData[0]);
                     if (city != null) {

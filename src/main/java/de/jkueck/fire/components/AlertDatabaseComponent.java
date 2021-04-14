@@ -1,6 +1,5 @@
 package de.jkueck.fire.components;
 
-import de.jkueck.fire.AlertEvent;
 import de.jkueck.fire.AlertMessage;
 import de.jkueck.fire.SystemSettings;
 import de.jkueck.fire.database.Alert;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class AlertDatabaseComponent extends BaseComponent {
+public class AlertDatabaseComponent extends AlertBaseComponent {
 
     private final AlertService alertService;
 
