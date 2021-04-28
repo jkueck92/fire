@@ -1,4 +1,4 @@
-package de.jkueck.fire.osm;
+package de.jkueck.fire;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
-package de.jkueck.fire.components;
+package de.jkueck.fire.component;
 
-import de.jkueck.fire.service.SystemSettingService;
+import de.jkueck.fire.service.setting.SystemSettingService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 

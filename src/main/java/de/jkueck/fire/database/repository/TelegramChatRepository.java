@@ -10,8 +10,6 @@ import java.util.Set;
 @Repository
 public interface TelegramChatRepository extends CrudRepository<TelegramChat, Long> {
 
-    Optional<TelegramChat> findByChatId(final String chatId);
-
     Optional<Set<TelegramChat>> findByIsEnabled(final boolean isEnabled);
 
 }

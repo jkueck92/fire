@@ -1,10 +1,9 @@
-package de.jkueck.fire.components;
+package de.jkueck.fire.component;
 
 import com.fazecast.jSerialComm.SerialPort;
 import de.jkueck.fire.AlertEvent;
 import de.jkueck.fire.AlertMessage;
-import de.jkueck.fire.SystemSettings;
-import de.jkueck.fire.service.SystemSettingService;
+import de.jkueck.fire.setting.SystemSettings;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -22,14 +21,14 @@ public class SerialReaderComponent extends BaseComponent {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    protected SerialReaderComponent(ApplicationEventPublisher applicationEventPublisher) {
+    public SerialReaderComponent(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @EventListener(ApplicationReadyEvent.class)
     public void listen() {
 
-        String comPort = this.getSystemSettingService().getSystemSettingAsString(SystemSettings.SYSTEM_SETTING_COM_PORT);
+        String comPort = this.getSystemSettingService().getAsString(SystemSettings.SYSTEM_SETTING_COM_PORT);
 
         log.info("start listening to (" + comPort + ")");
 
