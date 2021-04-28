@@ -21,7 +21,7 @@ Die folgenden Komponenten sind aktuell verfügbar.
 #### Datenbank
 Die Datenbankkomponente speichert alle eingehenden Alarmierungen automatisch in der Datenbank. Die Alarmierung wird als 
 kompletter Text übernommen. zusätzlich wird noch die Uhrzeit und das Datum der Alarmierung erfasst. Die Komponente
-kann über die Einstellung *isDatabaseEnabled* aktiviert oder dekativiert werden.
+kann über die Einstellung *isDatabaseEnabled* aktiviert oder dektiviert werden.
 
 #### Telegram
 Die Telegramkomponente kann über einen definierten Bot Nachrichten an verschiedene Chats verschicken. Über die
@@ -63,3 +63,28 @@ Die Serialkomponente hört auf der SerialPort des Systems. Falls dort eine Alarm
 das die restlichen Komponenten benachrichtigt. Für die Komponente muss die Einstellung *comPort* gesetzt werden.
 Hier muss der SerialPort eingetragen werden über den der Melder angeschlossen ist.
 
+### Web-Schnittstelle
+Das System stellt eine Rest-Api zur Verfügung über die es möglich ist bestimmte Daten aus dem System zu ändern und 
+auszulesen. 
+
+#### Alarmierungen
+Über die Alarmierungs-Api ist es möglich die gespeicherten Alarmierungen auszulesen. Dafür werden zwei Schnittstellen
+bereitgestellt.
+
+* GET /api/alerts
+* GET /api/alerts/{id}
+
+#### Chats
+Die Chat-Api stellt Crud-Operationen zur Verfügung.
+
+* GET /api/chats
+* GET /api/chats/{id}
+* PUT /api/chats - Muss ein Json-Body übergeben bekommen mit den Feldern *id*, *chatId*, *isEnabled*, *message*
+* POST /api/chats - Muss ein Json-Body übergeben bekommen mit den Feldern *chatId*, *isEnabled*, *message*
+
+#### Einstellungen
+Die Einstellungs-Api stellt lese und update Funktionen bereit.
+
+* GET /api/settings
+* GET /api/settings/{id}
+* PUT /api/settings/{id} - Hier muss als URL-Parameter der neue Wert übergeben werden
