@@ -22,7 +22,7 @@ public class SystemSettingController extends BaseController {
     public ResponseEntity<SettingListResponse> getAll(@RequestParam(name = "sort", required = false) String sort) {
         SettingListResponse settingListResponse = new SettingListResponse();
         for (SystemSetting systemSetting : this.systemSettingService.getAll(this.getSortParameter(sort))) {
-            settingListResponse.add(new SettingResponse(systemSetting.getId(), systemSetting.getName(), systemSetting.getValue(), systemSetting.getUpdatedAt()));
+            settingListResponse.add(new SettingResponse(systemSetting));
         }
         return ResponseEntity.ok(settingListResponse);
     }
@@ -40,7 +40,7 @@ public class SystemSettingController extends BaseController {
     }
 
     private ResponseEntity<SettingResponse> buildResponseOk(SystemSetting setting) {
-        return ResponseEntity.ok(new SettingResponse(setting.getId(), setting.getName(), setting.getValue(), setting.getUpdatedAt()));
+        return ResponseEntity.ok(new SettingResponse(setting));
     }
 
 }

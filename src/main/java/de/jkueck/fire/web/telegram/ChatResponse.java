@@ -1,5 +1,6 @@
 package de.jkueck.fire.web.telegram;
 
+import de.jkueck.fire.database.TelegramChat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,5 +19,12 @@ public class ChatResponse {
     private Boolean isEnabled;
 
     private String message;
+
+    public ChatResponse(TelegramChat chat) {
+        this.id = chat.getId();
+        this.chatId = chat.getChatId();
+        this.isEnabled = chat.isEnabled();
+        this.message = chat.getMessage();
+    }
 
 }

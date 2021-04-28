@@ -22,7 +22,7 @@ public class ChatController extends BaseController {
     public ResponseEntity<ChatListResponse> getAll(@RequestParam(name = "sort", required = false) String sort) {
         ChatListResponse telegramListResponse = new ChatListResponse();
         for (TelegramChat telegramChat : this.telegramChatService.getAll(this.getSortParameter(sort))) {
-            telegramListResponse.add(new ChatResponse(telegramChat.getId(), telegramChat.getChatId(), telegramChat.isEnabled(), telegramChat.getMessage()));
+            telegramListResponse.add(new ChatResponse(telegramChat));
         }
         return ResponseEntity.ok(telegramListResponse);
     }
@@ -46,7 +46,7 @@ public class ChatController extends BaseController {
     }
 
     private ResponseEntity<ChatResponse> buildResponseOk(TelegramChat chat) {
-        return ResponseEntity.ok(new ChatResponse(chat.getId(), chat.getChatId(), chat.isEnabled(), chat.getMessage()));
+        return ResponseEntity.ok(new ChatResponse(chat));
     }
 
 }

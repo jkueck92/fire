@@ -22,7 +22,7 @@ public class AlertController extends BaseController {
     public ResponseEntity<AlertListResponse> getAll(@RequestParam(name = "sort", required = false) String sort) {
         AlertListResponse alertListResponse = new AlertListResponse();
         for (Alert alert : this.alertService.getAll(this.getSortParameter(sort))) {
-            alertListResponse.add(new AlertResponse(alert.getId(), alert.getCompleteMessage(), alert.getTimestamp()));
+            alertListResponse.add(new AlertResponse(alert));
         }
         return ResponseEntity.ok(alertListResponse);
     }
@@ -30,7 +30,7 @@ public class AlertController extends BaseController {
     @GetMapping("/{id}")
     public ResponseEntity<AlertResponse> get(@PathVariable(name = "id") Long id) {
         Optional<Alert> optionalAlert = this.alertService.findById(id);
-        return optionalAlert.map(alert -> ResponseEntity.ok(new AlertResponse(alert.getId(), alert.getCompleteMessage(), alert.getTimestamp()))).orElseGet(() -> ResponseEntity.notFound().build());
+        return optionalAlert.map(alert -> ResponseEntity.ok(new AlertResponse(alert))).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }
