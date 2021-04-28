@@ -1,12 +1,15 @@
 package de.jkueck.fire;
 
 import de.jkueck.fire.database.SystemSetting;
+import de.jkueck.fire.database.User;
+import de.jkueck.fire.database.repository.UserRepository;
 import de.jkueck.fire.service.setting.SystemSettingService;
 import de.jkueck.fire.setting.SystemSettings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -17,7 +20,6 @@ public class AfterStartup {
 
     private final ApplicationEventPublisher applicationEventPublisher;
     private final SystemSettingService systemSettingService;
-
 
     public AfterStartup(ApplicationEventPublisher applicationEventPublisher, SystemSettingService systemSettingService) {
         this.applicationEventPublisher = applicationEventPublisher;
@@ -40,6 +42,7 @@ public class AfterStartup {
                 }
             }
         }
+
     }
 
 }
