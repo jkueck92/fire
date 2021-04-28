@@ -2,9 +2,10 @@ package de.jkueck.fire.service.setting;
 
 import de.jkueck.fire.database.SystemSetting;
 import de.jkueck.fire.setting.SystemSettings;
+import org.springframework.data.domain.Sort;
 
+import java.util.LinkedHashSet;
 import java.util.Optional;
-import java.util.Set;
 
 public interface SystemSettingService {
 
@@ -12,7 +13,7 @@ public interface SystemSettingService {
 
     Boolean getAsBoolean(SystemSettings setting);
 
-    Set<SystemSetting> getAll();
+    LinkedHashSet<SystemSetting> getAll(Sort sort);
 
     Optional<SystemSetting> findById(long id);
 
@@ -21,7 +22,6 @@ public interface SystemSettingService {
     Optional<SystemSetting> save(String name, String value);
 
     Optional<SystemSetting> update(long id, String value);
-
 
 
 }

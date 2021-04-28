@@ -7,6 +7,8 @@ import de.jkueck.fire.setting.SystemSettings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Slf4j
 @Component
 public class DatabaseComponent extends AlertBaseComponent {
@@ -24,7 +26,7 @@ public class DatabaseComponent extends AlertBaseComponent {
         alert.setTimestamp(alertMessage.getTimestamp());
         alert.setCompleteMessage(alertMessage.getCompleteMessage());
 
-        Alert dbAlert = this.alertService.save(alert);
+        Optional<Alert> dbAlert = this.alertService.save(alert);
 
         log.info("store alert in database (" + dbAlert + ")");
 

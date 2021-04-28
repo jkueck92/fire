@@ -4,8 +4,10 @@ import de.jkueck.fire.database.SystemSetting;
 import de.jkueck.fire.database.repository.SystemSettingRepository;
 import de.jkueck.fire.setting.SystemSettings;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,8 +37,8 @@ public class SystemSettingServiceImpl  implements SystemSettingService {
     }
 
     @Override
-    public Set<SystemSetting> getAll() {
-        return StreamSupport.stream(this.systemSettingRepository.findAll().spliterator(), Boolean.FALSE).collect(Collectors.toSet());
+    public LinkedHashSet<SystemSetting> getAll(Sort sort) {
+        return new LinkedHashSet<>(this.systemSettingRepository.findAll(sort));
     }
 
     @Override

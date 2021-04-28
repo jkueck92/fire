@@ -4,13 +4,13 @@ import de.jkueck.fire.database.TelegramChat;
 import de.jkueck.fire.database.repository.TelegramChatRepository;
 import de.jkueck.fire.web.telegram.ChatResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
@@ -29,8 +29,8 @@ public class TelegramChatServiceImpl implements TelegramChatService {
     }
 
     @Override
-    public Set<TelegramChat> getAll() {
-        return StreamSupport.stream(this.telegramChatRepository.findAll().spliterator(), Boolean.FALSE).collect(Collectors.toSet());
+    public LinkedHashSet<TelegramChat> getAll(Sort sort) {
+        return new LinkedHashSet<>(this.telegramChatRepository.findAll(sort));
     }
 
     @Override

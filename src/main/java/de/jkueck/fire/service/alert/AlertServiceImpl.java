@@ -3,12 +3,13 @@ package de.jkueck.fire.service.alert;
 import de.jkueck.fire.database.Alert;
 import de.jkueck.fire.database.repository.AlertRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service
@@ -21,13 +22,18 @@ public class AlertServiceImpl implements AlertService {
     }
 
     @Override
-    public Alert save(Alert alert) {
-        return this.alertRepository.save(alert);
+    public Optional<Alert> save(Alert alert) {
+        return Optional.of(this.alertRepository.save(alert));
     }
 
     @Override
     public Set<Alert> getAll() {
-        return StreamSupport.stream(this.alertRepository.findAll().spliterator(), Boolean.FALSE).collect(Collectors.toSet());
+        return new HashSet<>(this.alertRepository.findAll());
+    }
+
+    @Override
+    public LinkedHashSet<Alert> getAll(Sort sort) {
+        return new LinkedHashSet<>(this.alertRepository.findAll(sort));
     }
 
     @Override
