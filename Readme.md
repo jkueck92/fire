@@ -1,4 +1,4 @@
-# fire / dme monitoring system
+# Fire / dme monitoring system
 
 ### Einstellungen
 * alertMessageDateTimeFormat
@@ -44,7 +44,7 @@ Folgende Platzhalter stehen zur Verfügung:
 * {remark2}
 * {timestamp}
 
-### Divera
+#### Divera
 Über die Diverakomponente können Nachrichten an Divera geschickt werden. Dazu muss die Einstellung *diveraApiUrl* mit
 der auf die von Divera zur Verfügung gestellten Api zeigen. Die Einstellung *diveraAccessKey* muss den von Divera
 zur Verfügung gestellten Accesskey enthalten über den die Api angesprochen werden kann. Die gesamte Komponente kann
@@ -58,7 +58,7 @@ gefüllt. Konkret wird hier dar Stichworttext, das Remark1 und Remark2 gestzt. B
 großflächig im Kreuzungsbereich. Falls kein Stichworttext vorhanden ist wird dafür der Platzhalter: Keine 
 Stichwortbeschreibung vorhanden ausgegeben. Falls die Remarks nicht gefüllt sind werden diese einfach weggelassen.
 
-### Serial
+#### Serial
 Die Serialkomponente hört auf der SerialPort des Systems. Falls dort eine Alarmierung eingeht wird ein Event getriggert
 das die restlichen Komponenten benachrichtigt. Für die Komponente muss die Einstellung *comPort* gesetzt werden.
 Hier muss der SerialPort eingetragen werden über den der Melder angeschlossen ist.
