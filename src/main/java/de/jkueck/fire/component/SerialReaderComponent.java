@@ -1,9 +1,9 @@
-package de.jkueck.fire.components;
+package de.jkueck.fire.component;
 
 import com.fazecast.jSerialComm.SerialPort;
 import de.jkueck.fire.AlertEvent;
 import de.jkueck.fire.AlertMessage;
-import de.jkueck.fire.service.SystemSettingService;
+import de.jkueck.fire.setting.SystemSettings;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -17,22 +17,22 @@ import java.util.Date;
 
 @Slf4j
 @Component
-public class SerialReaderComponent {
+public class SerialReaderComponent extends BaseComponent {
 
     private final ApplicationEventPublisher applicationEventPublisher;
-    private final SystemSettingService systemSettingService;
 
-    public SerialReaderComponent(ApplicationEventPublisher applicationEventPublisher, SystemSettingService systemSettingService) {
+    public SerialReaderComponent(ApplicationEventPublisher applicationEventPublisher) {
         this.applicationEventPublisher = applicationEventPublisher;
-        this.systemSettingService = systemSettingService;
     }
 
     @EventListener(ApplicationReadyEvent.class)
     public void listen() {
 
-        log.info("start listening to (" + this.systemSettingService.getComPort() + ")");
+        String comPort = this.getSystemSettingService().getAsString(SystemSettings.SYSTEM_SETTING_COM_PORT);
 
-        SerialPort serialPort = SerialPort.getCommPort(this.systemSettingService.getComPort());
+        log.info("start listening to (" + comPort + ")");
+
+        SerialPort serialPort = SerialPort.getCommPort(comPort);
         serialPort.openPort();
 
         try {
@@ -72,7 +72,6 @@ public class SerialReaderComponent {
                     log.info(sb.toString());
 
 
-
                     String timeAndDate = sb.substring(0, 14);
                     log.info("operation timestamp: (" + timeAndDate + ")");
 
@@ -99,7 +98,7 @@ public class SerialReaderComponent {
                         alertMessageBuilder.ric(ric);
                     }
 
-                    String[] locationData = StringUtils.split(x[0], Character.toString((char)32), 2);
+                    String[] locationData = StringUtils.split(x[0], Character.toString((char) 32), 2);
 
                     String city = StringUtils.trimToNull(locationData[0]);
                     if (city != null) {
