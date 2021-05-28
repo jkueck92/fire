@@ -50,8 +50,12 @@ public class DiveraComponent extends AlertBaseComponent {
 
     private String getAlertAddressInformation(AlertMessage alertMessage) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(alertMessage.getStreet());
-        stringBuilder.append(", ");
+        if (alertMessage.getStreet().equals("Keine Standortinformationen")) {
+            stringBuilder.append(alertMessage.getStreet());
+        } else {
+            stringBuilder.append(alertMessage.getStreet());
+            stringBuilder.append(", ");
+        }
         if (StringUtils.isNotBlank(alertMessage.getObject())) {
             stringBuilder.append(alertMessage.getObject());
             stringBuilder.append(", ");

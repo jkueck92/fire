@@ -14,12 +14,12 @@ public abstract class AlertBaseComponent extends BaseComponent implements Applic
 
     @Override
     public void onApplicationEvent(AlertEvent alertEvent) {
-        log.debug("check is component (" + this.getClass().getName() + ") enabled");
+        log.info("check is component (" + this.getClass().getName() + ") enabled");
         if (this.isComponentEnabled()) {
-            log.debug("component (" + this.getClass().getName() + ") is enabled");
+            log.info("component (" + this.getClass().getName() + ") is enabled");
             this.onReceiveAlert(alertEvent.getAlertMessage());
         } else {
-            log.debug("component (" + this.getClass().getName() + ") is disabled");
+            log.info("component (" + this.getClass().getName() + ") is disabled");
         }
     }
 

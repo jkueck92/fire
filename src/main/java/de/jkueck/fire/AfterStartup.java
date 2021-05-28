@@ -33,7 +33,7 @@ public class AfterStartup {
             log.info("setting (" + systemSetting + ") is in code available");
             Optional<SystemSetting> optionalSystemSetting = this.systemSettingService.findByName(systemSetting.getValue());
             if (optionalSystemSetting.isPresent()) {
-                log.info("found setting (" + systemSetting + ") in database");
+                log.info("found setting (" + systemSetting + ") in database name (" + optionalSystemSetting.get().getName() + "), value (" + optionalSystemSetting.get().getValue() + ")");
             } else {
                 log.info("setting (" + systemSetting + ") not in database, create new setting");
                 Optional<SystemSetting> optionalNewDbSetting = this.systemSettingService.save(systemSetting.getValue(), systemSetting.getDefaultValue());
