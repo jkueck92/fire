@@ -11,7 +11,9 @@ public enum SystemSettings {
     SYSTEM_SETTINGS_IS_DIVERA_ENABLED("isDiveraEnabled", "false"),
     SYSTEM_SETTINGS_DIVERA_API_URL("diveraApiUrl", "https://api.divera.de"),
     SYSTEM_SETTINGS_DIVERA_ACCESS_KEY("diveraAccessKey", "12345"),
-    SYSTEM_SETTING_COM_PORT("comPort", "13");
+    SYSTEM_SETTING_COM_PORT("comPort", "13"),
+    SYSTEM_SETTING_IS_FIREBOARD_ENABLED("isFireBoardEnabled", "false"),
+    SYSTEM_SETTINGS_FIREBOARD_AUTH_KEY("fireboardAuthKey", "12345");
 
     @Getter
     private String value;
