@@ -86,65 +86,87 @@ public class SerialReaderComponent extends BaseComponent {
 
                     String[] x = message.split("/");
 
-                    for (String a : x) {
-                        log.info("message: " + a);
-                    }
-
-                    AlertMessage.AlertMessageBuilder alertMessageBuilder = AlertMessage.builder();
-                    alertMessageBuilder.completeMessage(message);
-                    alertMessageBuilder.timestamp(timestamp);
+                    AlertMessage alertMessageBuilder = new AlertMessage();
+                    alertMessageBuilder.setCompleteMessage(message);
+                    alertMessageBuilder.setTimestamp(timestamp);
 
                     if (ric != null) {
-                        alertMessageBuilder.ric(ric);
+                        alertMessageBuilder.setRic(ric);
                     }
 
                     String[] locationData = StringUtils.split(x[0], Character.toString((char) 32), 2);
+                    log.info("locationData: " + locationData);
 
                     String city = StringUtils.trimToNull(locationData[0]);
+                    log.info("city (" + city + ")");
                     if (city != null) {
-                        alertMessageBuilder.city(city);
+                        alertMessageBuilder.setCity(city);
                     }
 
-                    String street = StringUtils.trimToNull(locationData[1]);
-                    if (street != null) {
-                        alertMessageBuilder.street(street);
-                    }
+                    if (locationData.length == 2) {
 
-                    String object = StringUtils.trimToNull(x[1]);
-                    if (object != null) {
-                        alertMessageBuilder.object(object);
-                    }
-
-                    String category = StringUtils.trimToNull(x[2]);
-                    if (category != null) {
-                        alertMessageBuilder.category(category);
-                    }
-
-                    String keyword = StringUtils.trimToNull(x[3]);
-                    if (keyword != null) {
-                        alertMessageBuilder.keyword(keyword);
-                    }
-
-                    String keywordText = StringUtils.trimToNull(x[4]);
-                    if (keywordText != null) {
-                        alertMessageBuilder.keywordText(keywordText);
-                    }
-
-                    if (x.length >= 6) {
-                        String remark1 = StringUtils.trimToNull(x[5]);
-                        if (remark1 != null) {
-                            alertMessageBuilder.remark1(remark1);
+                        String street = StringUtils.trimToNull(locationData[1]);
+                        log.info("street (" + street + ")");
+                        if (street != null) {
+                            alertMessageBuilder.setStreet(street);
                         }
-                    }
 
-                    if (x.length >= 7) {
-                        String remark2 = StringUtils.trimToNull(x[6]);
-                        if (remark2 != null) {
-                            alertMessageBuilder.remark2(remark2);
+                        String object = StringUtils.trimToNull(x[1]);
+                        log.info("object (" + object + ")");
+                        if (object != null) {
+                            alertMessageBuilder.setObject(object);
                         }
-                    }
 
-                    this.applicationEventPublisher.publishEvent(new AlertEvent(this, alertMessageBuilder.build()));
+                        String category = StringUtils.trimToNull(x[2]);
+                        log.info("category (" + category + ")");
+                        if (category != null) {
+                            alertMessageBuilder.setCategory(category);
+                        }
+
+                        String keyword = StringUtils.trimToNull(x[3]);
+                        log.info("keyword (" + keyword + ")");
+                        if (keyword != null) {
+                            alertMessageBuilder.setKeyword(keyword);
+                        }
+
+                        String keywordText = StringUtils.trimToNull(x[4]);
+                        log.info("keywordText (" + keywordText + ")");
+                        if (keywordText != null) {
+                            alertMessageBuilder.setKeywordText(keywordText);
+                        }
+
+                        if (x.length >= 6) {
+                            String remark1 = StringUtils.trimToNull(x[5]);
+                            log.info("remark1 (" + remark1 + ")");
+                            if (remark1 != null) {
+                                alertMessageBuilder.setRemark1(remark1);
+                            }
+                        }
+
+                        if (x.length >= 7) {
+                            String remark2 = StringUtils.trimToNull(x[6]);
+                            log.info("remark2 (" + remark2 + ")");
+                            if (remark2 != null) {
+                                alertMessageBuilder.setRemark2(remark2);
+                            }
+                        }
+
+                        log.info("try to publish event");
+                        this.applicationEventPublisher.publishEvent(new AlertEvent(this, alertMessageBuilder));
+
+                    } else {
+                        // no street available, push standard alert
+
+                        log.info("try to publish standard event");
+                        AlertMessage alertMessage = new AlertMessage();
+                        alertMessage.setCategory(" ");
+                        alertMessage.setKeyword("EINSATZ");
+                        alertMessage.setKeywordText("Keine Einsatzdetails vorhanden");
+                        alertMessage.setStreet("Keine Standortinformationen");
+                        alertMessage.setCity(" ");
+                        alertMessage.setTimestamp(new Date());
+                        this.applicationEventPublisher.publishEvent(new AlertEvent(this, alertMessage));
+                    }
 
                     x = null;
                     sb = new StringBuilder();
@@ -153,9 +175,12 @@ public class SerialReaderComponent extends BaseComponent {
                         j = 0;
                     }
 
+
                 }
             }
 
+
+            log.info("close in");
             in.close();
 
         } catch (Exception e) {
