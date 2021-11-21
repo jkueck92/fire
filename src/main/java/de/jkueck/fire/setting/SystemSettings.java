@@ -11,7 +11,8 @@ public enum SystemSettings {
     SYSTEM_SETTINGS_IS_DIVERA_ENABLED("isDiveraEnabled", "false"),
     SYSTEM_SETTINGS_DIVERA_API_URL("diveraApiUrl", "https://api.divera.de"),
     SYSTEM_SETTINGS_DIVERA_ACCESS_KEY("diveraAccessKey", "12345"),
-    SYSTEM_SETTING_COM_PORT("comPort", "13");
+    SYSTEM_SETTING_COM_PORT("comPort", "13"),
+    SYSTEM_SETTING_STANDARD_RIC("standardRIC", "EinsatzB,");
 
     @Getter
     private String value;

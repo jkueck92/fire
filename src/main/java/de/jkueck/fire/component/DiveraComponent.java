@@ -28,12 +28,19 @@ public class DiveraComponent extends AlertBaseComponent {
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         headers.set(HttpHeaders.ACCEPT_ENCODING, StandardCharsets.UTF_8.toString());
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(diveraApiUrl)
-                .queryParam("accesskey", diveraAccessKey)
-                .queryParam(DiveraApiParameter.PARAMETER_TITLE.getValue(), alertMessage.getCategory() + alertMessage.getKeyword())
-                .queryParam(DiveraApiParameter.PARAMETER_PRIORITY.getValue(), "1")
-                .queryParam(DiveraApiParameter.PARAMETER_ADDRESS.getValue(), this.getAlertAddressInformation(alertMessage))
-                .queryParam(DiveraApiParameter.PARAMETER_TEXT.getValue(), this.getAlertInformation(alertMessage));
+        String standardRIC = this.getSystemSettingService().getAsString(SystemSettings.SYSTEM_SETTING_STANDARD_RIC);
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(diveraApiUrl);
+
+        if (!alertMessage.getRic().equals(standardRIC)) {
+            builder.queryParam(DiveraApiParameter.PARAMETER_RIC.getValue(), alertMessage.getRic());
+        }
+
+        builder.queryParam("accesskey", diveraAccessKey);
+        builder.queryParam(DiveraApiParameter.PARAMETER_TITLE.getValue(), alertMessage.getCategory() + alertMessage.getKeyword());
+        builder.queryParam(DiveraApiParameter.PARAMETER_PRIORITY.getValue(), "1");
+        builder.queryParam(DiveraApiParameter.PARAMETER_ADDRESS.getValue(), this.getAlertAddressInformation(alertMessage));
+        builder.queryParam(DiveraApiParameter.PARAMETER_TEXT.getValue(), this.getAlertInformation(alertMessage));
 
         HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
 
